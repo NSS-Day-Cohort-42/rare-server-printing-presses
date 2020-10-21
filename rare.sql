@@ -64,6 +64,3 @@ INSERT INTO `tags` VALUES (null, "Fiji");
 
 INSERT INTO `posts` VALUES (null, 1, "I Love Dogs", "Dogs are the best.", 1);
 INSERT INTO `posts` VALUES (null, 2, "Fashion", "This years style is the best.", 2);
-INSERT INTO `Animal` VALUES (null, "Falafel", "Treatment", "Siamese", 4, 2);
-INSERT INTO `Animal` VALUES (null, "Doodles", "Kennel", "Poodle", 3, 1);
-INSERT INTO `Animal` VALUES (null, "Daps", "Kennel", "Boxer", 2, 2);
