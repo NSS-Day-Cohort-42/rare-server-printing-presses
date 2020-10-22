@@ -36,3 +36,5 @@ def get_all_users():
 
     # Use `json` package to properly serialize list as JSON
     return json.dumps(users)
+
+
