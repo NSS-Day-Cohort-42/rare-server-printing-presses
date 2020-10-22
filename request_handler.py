@@ -1,5 +1,6 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
+from users.request import get_all_users
 
 class HandleRequests(BaseHTTPRequestHandler):
     def parse_url(self, path):
@@ -55,9 +56,9 @@ class HandleRequests(BaseHTTPRequestHandler):
                     response = f"{get_all_users()}"
             elif resource == "register":
                 if id is not None:
-                    response = f"{get_single_customer(id)}"
+                    response = f"{get_single_user(id)}"
                 else:
-                    response = f"{get_all_customers()}"
+                    response = f"{get_all_users()}"
 
         self.wfile.write(response.encode())
 
@@ -73,7 +74,7 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         new_posts = None
 
-        if resource == "animals":
+        if resource == "posts":
             new_posts = create_posts(post_body)
 
         self.wfile.write(f"{new_posts}".encode())
