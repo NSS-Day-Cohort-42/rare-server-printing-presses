@@ -38,3 +38,38 @@ def get_all_users():
     return json.dumps(users)
 
 
+def check_if_valid(post_body):
+    
+    # {'password': 'password', 'email': 'mo@mo.com'}
+    password = post_body['password']
+    email = post_body['email']
+
+    with sqlite3.connect("./rare.db") as conn:
+
+        # Just use these. It's a Black Box.
+        conn.row_factory = sqlite3.Row
+        db_cursor = conn.cursor()
+
+        # Write the SQL query to get the information you want
+        db_cursor.execute("""
+        SELECT
+            u.id,
+            u.email,
+            u.name,
+            u.password
+        FROM users u
+        WHERE u.email = ? AND u.password = ?
+        """, (email, password, ))
+
+        # Initialize an empty list to hold all animal representations
+        
+
+        # Convert rows of data into a Python list
+        data = db_cursor.fetchone()
+
+        user = Users(data['id'], data['email'], data['name'], data['password'])
+        # Iterate list of data returned from database
+        
+        
+        return json.dumps(user.__dict__)
+    

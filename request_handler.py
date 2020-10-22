@@ -1,6 +1,7 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
-from users.request import get_all_users
+from users.request import check_if_valid, get_all_users
+
 
 class HandleRequests(BaseHTTPRequestHandler):
 
@@ -80,13 +81,16 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         (resource, id) = self.parse_url(self.path)
 
-        new_posts = None
+        response = None
 
-       
+        if resource == "login":
+            response = check_if_valid(post_body)
+            
+
         if resource == "posts":
-            new_posts = create_posts(post_body)
+            response = create_posts(post_body)
 
-        self.wfile.write(f"{new_posts}".encode())
+        self.wfile.write(f"{response}".encode())
 
     def do_DELETE(self):
         # Set a 204 response code
