@@ -83,4 +83,6 @@ INSERT INTO `posts` VALUES (null, 2, "Fashion", "This years style is the best.",
 INSERT INTO `posts` VALUES (null, 2, "Fashion", "This years style is the best.", 2);
 INSERT INTO `posts` VALUES (null, 2, "Fashion", "This years style is the best.", 2);
 
-SELECT * FROM posts
+SELECT * FROM users;
+
+DELETE FROM users WHERE id = 3;

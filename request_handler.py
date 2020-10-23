@@ -1,7 +1,7 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
 from posts.request import get_all_posts
-from users.request import check_if_valid, get_all_users
+from users.request import check_if_valid, get_all_users, create_user
 
 
 class HandleRequests(BaseHTTPRequestHandler):
@@ -90,6 +90,9 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         if resource == "login":
             response = check_if_valid(post_body)
+
+        if resource == "register":
+            response = create_user(post_body)
             
 
         if resource == "posts":
