@@ -5,7 +5,7 @@ import json
 
 def get_all_users():
     # Open a connection to the database
-    with sqlite3.connect("./rare.db") as conn:
+    with sqlite3.connect("rare.db") as conn:
 
         # Just use these. It's a Black Box.
         conn.row_factory = sqlite3.Row
@@ -21,7 +21,7 @@ def get_all_users():
         FROM users u
         """)
 
-        # Initialize an empty list to hold all animal representations
+        # Initialize an empty list to hold all user representations
         users = []
 
         # Convert rows of data into a Python list
@@ -61,7 +61,7 @@ def check_if_valid(post_body):
         WHERE u.email = ? AND u.password = ?
         """, (email, password, ))
 
-        # Initialize an empty list to hold all animal representations
+        # Initialize an empty list to hold all user representations
         
 
         # Convert rows of data into a Python list
@@ -73,3 +73,26 @@ def check_if_valid(post_body):
         
         return json.dumps(response_object)
     
+def create_user(new_user):
+    with sqlite3.connect("./rare.db") as conn:
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        INSERT INTO users
+            (email, name, password)
+        VALUES
+            ( ?, ?, ?);
+        """, (new_user['email'], new_user['name'], new_user['password'], ))
+
+        # The `lastrowid` property on the cursor will return
+        # the primary key of the last thing that got added to
+        # the database.
+        id = db_cursor.lastrowid
+
+        # Add the `id` property to the user dictionary that
+        # was sent by the client so that the client sees the
+        # primary key in the response.
+        new_user['id'] = id
+
+
+    return json.dumps(new_user)
