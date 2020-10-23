@@ -1,5 +1,6 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
+from posts.request import get_all_posts
 from users.request import check_if_valid, get_all_users
 
 
@@ -67,6 +68,11 @@ class HandleRequests(BaseHTTPRequestHandler):
                     response = f"{get_single_user(id)}"
                 else:
                     response = f"{get_all_users()}"
+            elif resource == "posts":
+                if id is not None:
+                    response = f"{get_single_posts()}"
+                else:
+                    response = f"{get_all_posts}"
 
         self.wfile.write(response.encode())
 

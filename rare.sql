@@ -65,3 +65,4 @@ INSERT INTO `tags` VALUES (null, "Fiji");
 INSERT INTO `posts` VALUES (null, 1, "I Love Dogs", "Dogs are the best.", 1);
 INSERT INTO `posts` VALUES (null, 2, "Fashion", "This years style is the best.", 2);
 
+SELECT * FROM posts
