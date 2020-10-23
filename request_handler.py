@@ -1,6 +1,7 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
 from users.request import check_if_valid, get_all_users, create_user
+from categories.request import create_category
 
 
 class HandleRequests(BaseHTTPRequestHandler):
@@ -92,6 +93,9 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         if resource == "posts":
             response = create_posts(post_body)
+
+        if resource == "categories":
+            response = create_category(post_body)
 
         self.wfile.write(f"{response}".encode())
 
