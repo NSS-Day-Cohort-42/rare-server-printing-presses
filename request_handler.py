@@ -1,7 +1,7 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
 from users.request import check_if_valid, get_all_users
-from comments.request import get_all_comments, add_comment
+from comments.request import get_all_comments, add_comment, delete_comment, update_comment
 class HandleRequests(BaseHTTPRequestHandler):
 
     def do_OPTIONS(self):
@@ -104,7 +104,7 @@ class HandleRequests(BaseHTTPRequestHandler):
             delete_posts(id)
         
         elif resource == "comments":
-            delete_comments(id)
+            delete_comment(id)
 
         self.wfile.write("".encode())
 
@@ -122,7 +122,7 @@ class HandleRequests(BaseHTTPRequestHandler):
             update_posts(id, post_body)
 
         elif resource == "comments":
-            update_comments(id, post_body)
+            update_comment(id, post_body)
 
         elif resource == "tags":
             update_tags(id, post_body)
