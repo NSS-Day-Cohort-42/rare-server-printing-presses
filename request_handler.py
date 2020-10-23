@@ -3,7 +3,7 @@ import json
 from comments.request import get_all_comments, add_comment
 from posts.request import get_all_posts
 from users.request import check_if_valid, get_all_users, create_user
-from categories.request import create_category
+from categories.request import create_category, get_all_categories
 
 
 class HandleRequests(BaseHTTPRequestHandler):
@@ -76,6 +76,8 @@ class HandleRequests(BaseHTTPRequestHandler):
                     response = f"{get_single_posts()}"
                 else:
                     response = f"{get_all_posts()}"
+            elif resource == "categories":
+                    response = f"{get_all_categories()}"
 
         self.wfile.write(response.encode())
 

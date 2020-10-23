@@ -1,9 +1,10 @@
+from comments.request import get_all_comments
 from models.categories import Categories
 import sqlite3
 import json
 
 def create_category(new_category):
-    with sqlite3.connect("./rare.db") as conn:
+    with sqlite3.connect("rare.db") as conn:
         db_cursor = conn.cursor()
 
         db_cursor.execute("""
@@ -11,7 +12,7 @@ def create_category(new_category):
             (label)
         VALUES
             ( ? );
-        """, (new_category ['label'], ))
+        """, (new_category['label'], ))
 
         # The `lastrowid` property on the cursor will return
         # the primary key of the last thing that got added to
@@ -26,3 +27,35 @@ def create_category(new_category):
 
 
     return json.dumps(new_category)
+
+def get_all_categories():
+    # Open a connection to the database
+    with sqlite3.connect("./rare.db") as conn:
+
+        # Just use these. It's a Black Box.
+        conn.row_factory = sqlite3.Row
+        db_cursor = conn.cursor()
+
+        # Write the SQL query to get the information you want
+        db_cursor.execute("""
+        SELECT
+            c.id,
+            c.label
+        FROM categories c
+        """)
+
+        # Initialize an empty list to hold all animal representations
+        categories = []
+
+        # Convert rows of data into a Python list
+        dataset = db_cursor.fetchall()
+
+        # Iterate list of data returned from database
+        for row in dataset:
+
+            category = Categories(row['id'], row['label'])
+
+            categories.append(category.__dict__)
+
+    # Use `json` package to properly serialize list as JSON
+    return json.dumps(categories)
