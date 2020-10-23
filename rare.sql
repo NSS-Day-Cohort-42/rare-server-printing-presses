@@ -85,8 +85,4 @@ INSERT INTO `posts` VALUES (null, 2, "Fashion", "This years style is the best.",
 
 SELECT * FROM users;
 
-<<<<<<< HEAD
-DELETE FROM users WHERE id = 17;
-=======
 DELETE FROM users WHERE id = 3;
->>>>>>> main
