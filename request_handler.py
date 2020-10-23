@@ -1,8 +1,7 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
 from users.request import check_if_valid, get_all_users
-
-
+from comments.request import get_all_comments, add_comment
 class HandleRequests(BaseHTTPRequestHandler):
 
     def do_OPTIONS(self):
@@ -63,11 +62,11 @@ class HandleRequests(BaseHTTPRequestHandler):
                     response = f"{get_single_user(id)}"
                 else:
                     response = f"{get_all_users()}"
-            elif resource == "register":
+            elif resource == "comments":
                 if id is not None:
                     response = f"{get_single_user(id)}"
                 else:
-                    response = f"{get_all_users()}"
+                    response = f"{get_all_comments()}"
 
         self.wfile.write(response.encode())
 
@@ -85,7 +84,9 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         if resource == "login":
             response = check_if_valid(post_body)
-            
+        
+        if resource == "comments":
+            response = add_comment(post_body)
 
         if resource == "posts":
             response = create_posts(post_body)
