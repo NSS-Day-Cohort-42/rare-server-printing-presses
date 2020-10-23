@@ -65,7 +65,7 @@ def check_if_valid(post_body):
 
         user = Users(data['id'], data['email'], data['name'], data['password'])
         # Iterate list of data returned from database
+        response_object = {'valid': True, 'id': user.id}
         
-        
-        return json.dumps(user.__dict__)
+        return json.dumps(response_object)
     
