@@ -1,5 +1,6 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
+from tags.request import create_new_tag, get_all_tags
 from users.request import check_if_valid, get_all_users
 
 
@@ -68,6 +69,8 @@ class HandleRequests(BaseHTTPRequestHandler):
                     response = f"{get_single_user(id)}"
                 else:
                     response = f"{get_all_users()}"
+            elif resource == "tags":
+                response = f"{get_all_tags()}"
 
         self.wfile.write(response.encode())
 
@@ -89,6 +92,9 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         if resource == "posts":
             response = create_posts(post_body)
+
+        if resource == "tags":
+            response = create_new_tag(post_body)
 
         self.wfile.write(f"{response}".encode())
 
