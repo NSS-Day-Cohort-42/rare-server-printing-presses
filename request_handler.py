@@ -1,5 +1,6 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
+from comments.request import get_all_comments, add_comment
 from posts.request import get_all_posts
 from users.request import check_if_valid, get_all_users, create_user
 from categories.request import create_category
@@ -64,10 +65,11 @@ class HandleRequests(BaseHTTPRequestHandler):
                     response = f"{get_single_user(id)}"
                 else:
                     response = f"{get_all_users()}"
-            elif resource == "register":
+            elif resource == "comments":
                 if id is not None:
                     response = f"{get_single_user(id)}"
                 else:
+                    response = f"{get_all_comments()}"
                     response = f"{get_all_users()}"
             elif resource == "posts":
                 if id is not None:
@@ -91,6 +93,9 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         if resource == "login":
             response = check_if_valid(post_body)
+        
+        if resource == "comments":
+            response = add_comment(post_body)
 
         if resource == "register":
             response = create_user(post_body)
