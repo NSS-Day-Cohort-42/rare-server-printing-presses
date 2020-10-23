@@ -1,5 +1,3 @@
-import users
-
 
 class Users():
     
@@ -8,4 +6,3 @@ class Users():
         self.email = email
         self.name = name
         self.password = password
-   
