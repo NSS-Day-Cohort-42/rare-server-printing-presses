@@ -18,13 +18,12 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         # Check if there is a query string parameter
         if "?" in resource:
-            # GIVEN: /customers?email=jenna@solis.com
 
-            param = resource.split("?")[1]  # email=jenna@solis.com
-            resource = resource.split("?")[0]  # 'customers'
-            pair = param.split("=")  # [ 'email', 'jenna@solis.com' ]
-            key = pair[0]  # 'email'
-            value = pair[1]  # 'jenna@solis.com'
+            param = resource.split("?")[1]  
+            resource = resource.split("?")[0]  
+            pair = param.split("=")  
+            key = pair[0]  
+            value = pair[1] 
 
             return ( resource, key, value )
 
@@ -116,7 +115,6 @@ class HandleRequests(BaseHTTPRequestHandler):
         # Parse the URL
         (resource, id) = self.parse_url(self.path)
 
-        # Delete a single animal from the list
         if resource == "posts":
             update_posts(id, post_body)
 
@@ -129,7 +127,6 @@ class HandleRequests(BaseHTTPRequestHandler):
         elif resource == "categories":
             update_categories(id, post_body)
 
-        # Encode the new animal and send in response
         self.wfile.write("".encode())
 
 # This function is not inside the class. It is the starting

@@ -21,7 +21,6 @@ def get_all_users():
         FROM users u
         """)
 
-        # Initialize an empty list to hold all animal representations
         users = []
 
         # Convert rows of data into a Python list
@@ -59,10 +58,7 @@ def check_if_valid(post_body):
             u.password
         FROM users u
         WHERE u.email = ? AND u.password = ?
-        """, (email, password, ))
-
-        # Initialize an empty list to hold all animal representations
-        
+        """, (email, password, ))        
 
         # Convert rows of data into a Python list
         data = db_cursor.fetchone()
