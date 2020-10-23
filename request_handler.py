@@ -72,7 +72,7 @@ class HandleRequests(BaseHTTPRequestHandler):
                 if id is not None:
                     response = f"{get_single_posts()}"
                 else:
-                    response = f"{get_all_posts}"
+                    response = f"{get_all_posts()}"
 
         self.wfile.write(response.encode())
 

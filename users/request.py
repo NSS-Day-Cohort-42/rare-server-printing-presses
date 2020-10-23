@@ -5,7 +5,7 @@ import json
 
 def get_all_users():
     # Open a connection to the database
-    with sqlite3.connect("./rare.db") as conn:
+    with sqlite3.connect("rare.db") as conn:
 
         # Just use these. It's a Black Box.
         conn.row_factory = sqlite3.Row
@@ -43,7 +43,7 @@ def check_if_valid(post_body):
     password = post_body['password']
     email = post_body['email']
 
-    with sqlite3.connect("./rare.db") as conn:
+    with sqlite3.connect("rare.db") as conn:
 
         # Just use these. It's a Black Box.
         conn.row_factory = sqlite3.Row

@@ -5,7 +5,7 @@ import json
 
 def get_all_posts():
 
-    with sqlite3.connect(".rare.db") as conn:
+    with sqlite3.connect("rare.db") as conn:
 
 
         conn.row_factory = sqlite3.Row
@@ -17,7 +17,7 @@ def get_all_posts():
             p.user_id,
             p.title,
             p.content,
-            p.category_id,
+            p.category_id
         FROM posts p
         """)
 
@@ -27,7 +27,7 @@ def get_all_posts():
 
         for row in dataset:
             post = Posts(row['id'], row['user_id'], row['title'],
-                            row['content'], row['category'])
+                            row['content'], row['category_id'])
 
             posts.append(post.__dict__)
 
