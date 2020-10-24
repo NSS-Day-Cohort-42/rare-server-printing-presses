@@ -61,3 +61,38 @@ def add_comment(new_comment):
 
 
     return json.dumps(new_comment)
+
+def delete_comment(id):
+    with sqlite3.connect("./rare.db") as conn:
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        DELETE FROM comments
+        WHERE id = ?
+        """, (id, ))
+
+def update_comment(id, new_comment):
+    with sqlite3.connect("./rare.db") as conn:
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        UPDATE Animal
+            SET
+                user_id = ?,
+                post_id = ?,
+                subject = ?,
+                content = ?
+        WHERE id = ?
+        """, (new_comment['user_id'], new_comment['post_id'],
+              new_comment['subject'], new_comment['content']))
+
+        # Were any rows affected?
+        # Did the client send an `id` that exists?
+        rows_affected = db_cursor.rowcount
+
+    if rows_affected == 0:
+        # Forces 404 response by main module
+        return False
+    else:
+        # Forces 204 response by main module
+        return True
