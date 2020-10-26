@@ -33,13 +33,27 @@ def get_all_posts():
 
     return json.dumps(posts)
 
-def create_post(posts):
-    max_id = Posts[-1]["id"]
+def create_post(new_posts):
+        with sqlite3.connect("rare.db") as conn:
+            db_cursor = conn.cursor()
 
-    new_id = max_id + 1
+            db_cursor.execute("""
+            INSERT INTO posts
+                ( user_id, title, content )
+            VALUES
+                ( ?, ?, ?, ?);
+            """, (new_posts['user_id'], new_posts['title'],
+                new_posts['content']))
 
-    posts["id"] = new_id
+            # The `lastrowid` property on the cursor will return
+            # the primary key of the last thing that got added to
+            # the database.
+            id = db_cursor.lastrowid
 
-    Posts.append(posts)
+            # Add the `id` property to the animal dictionary that
+            # was sent by the client so that the client sees the
+            # primary key in the response.
+            new_posts['id'] = id
 
-    return posts
+
+        return json.dumps(new_posts)
