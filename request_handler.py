@@ -1,7 +1,7 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
 from comments.request import get_all_comments, add_comment
-from posts.request import get_all_posts
+from posts.request import create_post, get_all_posts
 from users.request import check_if_valid, get_all_users, create_user
 
 
@@ -99,9 +99,8 @@ class HandleRequests(BaseHTTPRequestHandler):
         if resource == "register":
             response = create_user(post_body)
             
-
         if resource == "posts":
-            response = create_posts(post_body)
+            response = create_post(post_body)
 
         self.wfile.write(f"{response}".encode())
 

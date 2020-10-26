@@ -32,3 +32,14 @@ def get_all_posts():
             posts.append(post.__dict__)
 
     return json.dumps(posts)
+
+def create_post(posts):
+    max_id = Posts[-1]["id"]
+
+    new_id = max_id + 1
+
+    posts["id"] = new_id
+
+    Posts.append(posts)
+
+    return posts
