@@ -1,5 +1,9 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
+from tags.request import create_new_tag, get_all_tags
+from users.request import check_if_valid, get_all_users
+from comments.request import get_all_comments, add_comment
+from posts.request import get_all_posts
 from users.request import check_if_valid, get_all_users, create_user
 from comments.request import get_all_comments, add_comment, delete_comment, update_comment, get_single_comment
 from posts.request import get_all_posts
@@ -69,6 +73,10 @@ class HandleRequests(BaseHTTPRequestHandler):
                     response = f"{get_single_comment(id)}"
                 else:
                     response = f"{get_all_comments()}"
+                    
+            elif resource == "tags":
+                response = f"{get_all_tags()}"
+
             elif resource == "posts":
                 if id is not None:
                     response = f"{get_single_posts()}"
@@ -100,6 +108,9 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         if resource == "posts":
             response = create_posts(post_body)
+
+        if resource == "tags":
+            response = create_new_tag(post_body)
 
         self.wfile.write(f"{response}".encode())
 
