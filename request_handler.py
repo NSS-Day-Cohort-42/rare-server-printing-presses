@@ -5,6 +5,8 @@ from users.request import check_if_valid, get_all_users
 from comments.request import get_all_comments, add_comment
 from posts.request import get_all_posts
 from users.request import check_if_valid, get_all_users, create_user
+from comments.request import get_all_comments, add_comment, delete_comment, update_comment, get_single_comment
+from posts.request import get_all_posts
 
 
 class HandleRequests(BaseHTTPRequestHandler):
@@ -68,10 +70,9 @@ class HandleRequests(BaseHTTPRequestHandler):
                     response = f"{get_all_users()}"
             elif resource == "comments":
                 if id is not None:
-                    response = f"{get_single_user(id)}"
+                    response = f"{get_single_comment(id)}"
                 else:
                     response = f"{get_all_comments()}"
-                    response = f"{get_all_users()}"
                     
             elif resource == "tags":
                 response = f"{get_all_tags()}"
@@ -104,7 +105,6 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         if resource == "register":
             response = create_user(post_body)
-            
 
         if resource == "posts":
             response = create_posts(post_body)
@@ -125,7 +125,7 @@ class HandleRequests(BaseHTTPRequestHandler):
             delete_posts(id)
         
         elif resource == "comments":
-            delete_comments(id)
+            delete_comment(id)
 
         self.wfile.write("".encode())
 
@@ -137,18 +137,26 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         # Parse the URL
         (resource, id) = self.parse_url(self.path)
+        success = False
+
+        print("Edit about to happen")
 
         if resource == "posts":
             update_posts(id, post_body)
 
         elif resource == "comments":
-            update_comments(id, post_body)
+            success = update_comment(post_body)
 
         elif resource == "tags":
             update_tags(id, post_body)
         
         elif resource == "categories":
             update_categories(id, post_body)
+
+        if success:
+            self._set_headers(204)
+        else:
+            self._set_headers(404)
 
         self.wfile.write("".encode())
 
