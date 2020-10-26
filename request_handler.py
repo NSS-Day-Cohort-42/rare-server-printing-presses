@@ -1,7 +1,7 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
 from users.request import check_if_valid, get_all_users, create_user
-from comments.request import get_all_comments, add_comment, delete_comment, update_comment
+from comments.request import get_all_comments, add_comment, delete_comment, update_comment, get_single_comment
 from posts.request import get_all_posts
 
 
@@ -66,7 +66,7 @@ class HandleRequests(BaseHTTPRequestHandler):
                     response = f"{get_all_users()}"
             elif resource == "comments":
                 if id is not None:
-                    response = f"{get_single_user(id)}"
+                    response = f"{get_single_comment(id)}"
                 else:
                     response = f"{get_all_comments()}"
             elif resource == "posts":
@@ -127,6 +127,7 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         # Parse the URL
         (resource, id) = self.parse_url(self.path)
+        success = False
 
         if resource == "posts":
             update_posts(id, post_body)
@@ -139,6 +140,11 @@ class HandleRequests(BaseHTTPRequestHandler):
         
         elif resource == "categories":
             update_categories(id, post_body)
+
+        if success:
+            self._set_headers(204)
+        else:
+            self._set_headers(404)
 
         self.wfile.write("".encode())
 

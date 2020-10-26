@@ -71,63 +71,48 @@ def delete_comment(id):
         WHERE id = ?
         """, (id, ))
 
-def update_comment(id, new_comment):
-    with sqlite3.connect("./rare.db") as conn:
+def get_single_comment(id):
+     with sqlite3.connect("./rare.db") as conn:
+        conn.row_factory = sqlite3.Row
         db_cursor = conn.cursor()
 
         db_cursor.execute("""
-        UPDATE Animal
+        SELECT
+            a.id,
+            a.user_id,
+            a.post_id,
+            a.subject,
+            a.content
+        FROM comments a
+        WHERE a.id = ?
+        """, ( id, ))
+
+        data = db_cursor.fetchone()
+        comment = Comments(data['id'], data['user_id'], data['post_id'],
+                        data['subject'], data['content'])
+
+        return json.dumps(comment.__dict__)
+
+def update_comment(id, new_comment):
+    with sqlite3.connect("./rare.db") as conn:
+        db_cursor = conn.cursor()
+        db_cursor.execute("""
+        UPDATE Comment
             SET
                 user_id = ?,
                 post_id = ?,
                 subject = ?,
                 content = ?
         WHERE id = ?
-        """, (new_comment['user_id'], new_comment['post_id'],
-              new_comment['subject'], new_comment['content']))
+        """, (id, new_comment['user_id'], new_comment['post_id'],
+                        new_comment['subject'], new_comment['content'], ))
 
         # Were any rows affected?
         # Did the client send an `id` that exists?
         rows_affected = db_cursor.rowcount
-
     if rows_affected == 0:
         # Forces 404 response by main module
         return False
     else:
         # Forces 204 response by main module
         return True
-
-# def check_if_valid(post_body):
-    
-#     # {'password': 'password', 'email': 'mo@mo.com'}
-#     password = post_body['password']
-#     email = post_body['email']
-
-#     with sqlite3.connect("rare.db") as conn:
-
-#         # Just use these. It's a Black Box.
-#         conn.row_factory = sqlite3.Row
-#         db_cursor = conn.cursor()
-
-#         # Write the SQL query to get the information you want
-#         db_cursor.execute("""
-#         SELECT
-#             u.id,
-#             u.email,
-#             u.name,
-#             u.password
-#         FROM users u
-#         WHERE u.email = ? AND u.password = ?
-#         """, (email, password, ))
-
-#         # Initialize an empty list to hold all user representations
-        
-
-#         # Convert rows of data into a Python list
-#         data = db_cursor.fetchone()
-
-#         user = Users(data['id'], data['email'], data['name'], data['password'])
-#         # Iterate list of data returned from database
-#         response_object = {'valid': True, 'id': user.id}
-        
-#         return json.dumps(response_object)
