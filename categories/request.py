@@ -1,4 +1,3 @@
-from comments.request import get_all_comments
 from models.categories import Categories
 import sqlite3
 import json
