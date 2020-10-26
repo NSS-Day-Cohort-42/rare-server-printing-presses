@@ -45,14 +45,8 @@ def create_post(new_posts):
             """, (new_posts['user_id'], new_posts['title'],
                 new_posts['content']))
 
-            # The `lastrowid` property on the cursor will return
-            # the primary key of the last thing that got added to
-            # the database.
             id = db_cursor.lastrowid
 
-            # Add the `id` property to the animal dictionary that
-            # was sent by the client so that the client sees the
-            # primary key in the response.
             new_posts['id'] = id
 
 
