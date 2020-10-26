@@ -112,13 +112,10 @@ class HandleRequests(BaseHTTPRequestHandler):
         if resource == "posts":
             response = create_posts(post_body)
 
-<<<<<<< HEAD
         if resource == "categories":
             response = create_category(post_body)
-=======
         if resource == "tags":
             response = create_new_tag(post_body)
->>>>>>> main
 
         self.wfile.write(f"{response}".encode())
 
