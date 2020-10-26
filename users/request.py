@@ -73,9 +73,6 @@ def check_if_valid(post_body):
         
         return json.dumps(response_object)
     
-<<<<<<< HEAD
-    
-=======
 def create_user(new_user):
     with sqlite3.connect("./rare.db") as conn:
         db_cursor = conn.cursor()
@@ -99,4 +96,3 @@ def create_user(new_user):
 
 
     return json.dumps(new_user)
->>>>>>> main
