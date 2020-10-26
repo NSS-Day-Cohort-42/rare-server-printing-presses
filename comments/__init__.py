@@ -1,1 +1,1 @@
-from .request import get_all_comments, add_comment
+from .request import get_all_comments, add_comment, get_single_comment, delete_comment, update_comment
