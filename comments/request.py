@@ -93,19 +93,19 @@ def get_single_comment(id):
 
         return json.dumps(comment.__dict__)
 
-def update_comment(id, new_comment):
+def update_comment(new_comment):
     with sqlite3.connect("./rare.db") as conn:
         db_cursor = conn.cursor()
         db_cursor.execute("""
-        UPDATE Comment
+        UPDATE Comments
             SET
                 user_id = ?,
                 post_id = ?,
                 subject = ?,
                 content = ?
         WHERE id = ?
-        """, (id, new_comment['user_id'], new_comment['post_id'],
-                        new_comment['subject'], new_comment['content'], ))
+        """, (new_comment['user_id'], new_comment['post_id'],
+                        new_comment['subject'], new_comment['content'], new_comment['id']))
 
         # Were any rows affected?
         # Did the client send an `id` that exists?

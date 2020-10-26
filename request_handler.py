@@ -97,7 +97,6 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         if resource == "register":
             response = create_user(post_body)
-            
 
         if resource == "posts":
             response = create_posts(post_body)
@@ -129,11 +128,13 @@ class HandleRequests(BaseHTTPRequestHandler):
         (resource, id) = self.parse_url(self.path)
         success = False
 
+        print("Edit about to happen")
+
         if resource == "posts":
             update_posts(id, post_body)
 
         elif resource == "comments":
-            update_comment(id, post_body)
+            success = update_comment(post_body)
 
         elif resource == "tags":
             update_tags(id, post_body)
