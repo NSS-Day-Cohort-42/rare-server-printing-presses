@@ -5,6 +5,7 @@ from users.request import check_if_valid, get_all_users
 from comments.request import get_all_comments, add_comment
 from posts.request import get_all_posts
 from users.request import check_if_valid, get_all_users, create_user
+from categories.request import create_category, get_all_categories
 from comments.request import get_all_comments, add_comment, delete_comment, update_comment, get_single_comment
 from posts.request import get_all_posts
 
@@ -82,6 +83,8 @@ class HandleRequests(BaseHTTPRequestHandler):
                     response = f"{get_single_posts()}"
                 else:
                     response = f"{get_all_posts()}"
+            elif resource == "categories":
+                    response = f"{get_all_categories()}"
 
         self.wfile.write(response.encode())
 
@@ -109,6 +112,8 @@ class HandleRequests(BaseHTTPRequestHandler):
         if resource == "posts":
             response = create_posts(post_body)
 
+        if resource == "categories":
+            response = create_category(post_body)
         if resource == "tags":
             response = create_new_tag(post_body)
 
