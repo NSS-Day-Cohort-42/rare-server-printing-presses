@@ -61,3 +61,58 @@ def add_comment(new_comment):
 
 
     return json.dumps(new_comment)
+
+def delete_comment(id):
+    with sqlite3.connect("./rare.db") as conn:
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        DELETE FROM comments
+        WHERE id = ?
+        """, (id, ))
+
+def get_single_comment(id):
+     with sqlite3.connect("./rare.db") as conn:
+        conn.row_factory = sqlite3.Row
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        SELECT
+            a.id,
+            a.user_id,
+            a.post_id,
+            a.subject,
+            a.content
+        FROM comments a
+        WHERE a.id = ?
+        """, ( id, ))
+
+        data = db_cursor.fetchone()
+        comment = Comments(data['id'], data['user_id'], data['post_id'],
+                        data['subject'], data['content'])
+
+        return json.dumps(comment.__dict__)
+
+def update_comment(new_comment):
+    with sqlite3.connect("./rare.db") as conn:
+        db_cursor = conn.cursor()
+        db_cursor.execute("""
+        UPDATE Comments
+            SET
+                user_id = ?,
+                post_id = ?,
+                subject = ?,
+                content = ?
+        WHERE id = ?
+        """, (new_comment['user_id'], new_comment['post_id'],
+                        new_comment['subject'], new_comment['content'], new_comment['id']))
+
+        # Were any rows affected?
+        # Did the client send an `id` that exists?
+        rows_affected = db_cursor.rowcount
+    if rows_affected == 0:
+        # Forces 404 response by main module
+        return False
+    else:
+        # Forces 204 response by main module
+        return True
