@@ -32,3 +32,21 @@ def get_all_posts():
             posts.append(post.__dict__)
 
     return json.dumps(posts)
+
+def create_post(new_posts):
+        with sqlite3.connect("rare.db") as conn:
+            db_cursor = conn.cursor()
+
+            db_cursor.execute("""
+            INSERT INTO posts
+                (user_id, title, content, category_id )
+            VALUES
+                (?, ?, ?, ?);
+            """, (new_posts['user_id'], new_posts['title'], new_posts['content'], new_posts['category_id'], ))
+
+            id = db_cursor.lastrowid
+
+            new_posts['id'] = id
+
+
+        return json.dumps(new_posts)
