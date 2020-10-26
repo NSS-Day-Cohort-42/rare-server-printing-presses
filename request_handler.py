@@ -105,6 +105,7 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         if resource == "register":
             response = create_user(post_body)
+        
         if resource == "posts":
             response = create_post(post_body)
 
