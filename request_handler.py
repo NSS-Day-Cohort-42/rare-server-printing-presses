@@ -3,7 +3,7 @@ import json
 from tags.request import create_new_tag, get_all_tags
 from users.request import check_if_valid, get_all_users
 from comments.request import get_all_comments, add_comment
-from posts.request import create_post, get_all_posts
+from posts.request import create_post, get_all_posts, get_single_post, delete_post
 from users.request import check_if_valid, get_all_users, create_user
 from categories.request import create_category, get_all_categories
 from comments.request import get_all_comments, add_comment, delete_comment, update_comment, get_single_comment
@@ -80,7 +80,7 @@ class HandleRequests(BaseHTTPRequestHandler):
 
             elif resource == "posts":
                 if id is not None:
-                    response = f"{get_single_posts()}"
+                    response = f"{get_single_post(id)}"
                 else:
                     response = f"{get_all_posts()}"
             elif resource == "categories":
@@ -127,7 +127,7 @@ class HandleRequests(BaseHTTPRequestHandler):
         (resource, id) = self.parse_url(self.path)
 
         if resource == "posts":
-            delete_posts(id)
+            delete_post(id)
         
         elif resource == "comments":
             delete_comment(id)
@@ -147,7 +147,7 @@ class HandleRequests(BaseHTTPRequestHandler):
         print("Edit about to happen")
 
         if resource == "posts":
-            update_posts(id, post_body)
+            update_post(id, post_body)
 
         elif resource == "comments":
             success = update_comment(post_body)
