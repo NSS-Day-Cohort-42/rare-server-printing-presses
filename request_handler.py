@@ -147,7 +147,7 @@ class HandleRequests(BaseHTTPRequestHandler):
         print("Edit about to happen")
 
         if resource == "posts":
-            update_post(post_body)
+            update_post(id, post_body)
 
         elif resource == "comments":
             success = update_comment(post_body)

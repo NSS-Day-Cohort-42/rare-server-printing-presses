@@ -51,7 +51,7 @@ def create_post(new_posts):
 
         return json.dumps(new_posts)
 
-def update_post(edit_post):
+def update_post(id, edit_post):
     with sqlite3.connect("rare.db") as conn:
         db_cursor = conn.cursor()
         db_cursor.execute("""
@@ -62,8 +62,7 @@ def update_post(edit_post):
                 content = ?,
                 category_id = ?
         WHERE id = ?
-        """, (edit_post['user_id'], edit_post['title'],
-                        edit_post['content'], edit_post['category_id']))
+        """, (edit_post['user_id'], edit_post['title'], edit_post['content'], edit_post['category_id'], id))
 
         rows_affected = db_cursor.rowcount
         
