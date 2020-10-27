@@ -71,3 +71,33 @@ def update_post(edit_post):
         return False
     else:
         return True
+def get_single_post(id):
+     with sqlite3.connect("./rare.db") as conn:
+        conn.row_factory = sqlite3.Row
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        SELECT
+            a.id,
+            a.user_id,
+            a.title,
+            a.content,
+            a.category_id
+        FROM posts a
+        WHERE a.id = ?
+        """, ( id, ))
+
+        data = db_cursor.fetchone()
+        post = Posts(data['id'], data['user_id'], data['title'],
+                        data['content'], data['category_id'])
+
+        return json.dumps(post.__dict__)
+
+def delete_post(id):
+    with sqlite3.connect("./rare.db") as conn:
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        DELETE FROM posts
+        WHERE id = ?
+        """, (id, ))
