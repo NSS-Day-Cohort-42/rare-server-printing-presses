@@ -83,6 +83,14 @@ INSERT INTO `posts` VALUES (null, 2, "Fashion", "This years style is the best.",
 INSERT INTO `posts` VALUES (null, 2, "Fashion", "This years style is the best.", 2);
 INSERT INTO `posts` VALUES (null, 2, "Fashion", "This years style is the best.", 2);
 
+INSERT INTO `post_tags` VALUES (null, 2, 3);
+INSERT INTO `post_tags` VALUES (null, 3, 4);
+INSERT INTO `post_tags` VALUES (null, 1, 2);
+INSERT INTO `post_tags` VALUES (null, 2, 3);
+INSERT INTO `post_tags` VALUES (null, 1, 3);
+
 SELECT * FROM categories;
 
 DELETE FROM users WHERE id = 3;
+
+

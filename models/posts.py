@@ -7,3 +7,4 @@ class Posts:
         self.title = title
         self.content = content
         self.category_id = category_id
+        self.tags = None

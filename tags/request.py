@@ -1,3 +1,4 @@
+from models.post_tags import Post_Tags
 from models.tags import Tag
 import sqlite3 
 import json
@@ -45,3 +46,30 @@ def create_new_tag(new_tag):
         new_tag['id'] = id
 
     return json.dumps(new_tag)
+
+def get_posts_tags():
+    with sqlite3.connect("./rare.db") as conn:
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        SELECT
+            pt.id,
+            pt.post_id,
+            pt.tag_id
+        FROM post_tags pt
+        """)
+
+        post_tags = []
+        dataset = db_cursor.fetchall()
+
+        
+
+        for row in dataset:
+            pt = Post_Tags(row[0], row[1], row[2])
+
+            post_tags.append(pt.__dict__)
+
+    return json.dumps(post_tags)
+
+
+

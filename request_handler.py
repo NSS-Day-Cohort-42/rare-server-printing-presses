@@ -1,6 +1,6 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
-from tags.request import create_new_tag, get_all_tags
+from tags.request import create_new_tag, get_all_tags, get_posts_tags
 from users.request import check_if_valid, get_all_users
 from comments.request import get_all_comments, add_comment
 from posts.request import create_post, get_all_posts, get_single_post, delete_post
@@ -85,6 +85,9 @@ class HandleRequests(BaseHTTPRequestHandler):
                     response = f"{get_all_posts()}"
             elif resource == "categories":
                     response = f"{get_all_categories()}"
+
+            elif resource == "posttags":
+                    response = f"{get_posts_tags()}"
 
         self.wfile.write(response.encode())
 
