@@ -73,6 +73,33 @@ def get_single_post(id):
 
         return json.dumps(post.__dict__)
 
+def get_posts_by_category(category_id):
+    with sqlite3.connect("./rare.db") as conn:
+        conn.row_factory = sqlite3.Row
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        SELECT
+            a.id,
+            a.user_id,
+            a.title,
+            a.content,
+            a.category_id
+        FROM posts a
+        WHERE a.category_id = ?
+        """, (  category_id, ))
+
+        posts = []
+
+        dataset = db_cursor.fetchall()
+        for row in dataset:
+
+            post = Posts(row['id'], row['user_id'], row['title'],
+                        row['content'], row['category_id'])
+            posts.append(post.__dict__)
+
+    return json.dumps(posts)
+
 def delete_post(id):
     with sqlite3.connect("./rare.db") as conn:
         db_cursor = conn.cursor()
