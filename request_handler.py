@@ -3,7 +3,11 @@ import json
 from tags.request import create_new_tag, get_all_tags
 from users.request import check_if_valid, get_all_users
 from comments.request import get_all_comments, add_comment
+<<<<<<< HEAD
 from posts.request import create_post, get_all_posts, get_posts_by_category, get_single_post, delete_post
+=======
+from posts.request import create_post, get_all_posts, get_single_post, delete_post, update_post
+>>>>>>> main
 from users.request import check_if_valid, get_all_users, create_user
 from categories.request import create_category, get_all_categories
 from comments.request import get_all_comments, add_comment, delete_comment, update_comment, get_single_comment

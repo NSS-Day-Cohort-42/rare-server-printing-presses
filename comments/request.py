@@ -46,8 +46,7 @@ def add_comment(new_comment):
             ( user_id, post_id, subject, content )
         VALUES
             ( ?, ?, ?, ?);
-        """, (new_comment['user_id'], new_comment['post_id'],
-              new_comment['subject'], new_comment['content']))
+        """, (new_comment['user_id'], new_comment['post_id'], new_comment['subject'], new_comment['content']))
 
         # The `lastrowid` property on the cursor will return
         # the primary key of the last thing that got added to
@@ -72,7 +71,7 @@ def delete_comment(id):
         """, (id, ))
 
 def get_single_comment(id):
-     with sqlite3.connect("./rare.db") as conn:
+    with sqlite3.connect("./rare.db") as conn:
         conn.row_factory = sqlite3.Row
         db_cursor = conn.cursor()
 

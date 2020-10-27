@@ -53,8 +53,28 @@ def create_post(new_posts):
 
         return json.dumps(new_posts)
 
+def update_post(id, edit_post):
+    with sqlite3.connect("rare.db") as conn:
+        db_cursor = conn.cursor()
+        db_cursor.execute("""
+        UPDATE posts
+            SET
+                user_id = ?,
+                title = ?,
+                content = ?,
+                category_id = ?
+        WHERE id = ?
+        """, (edit_post['user_id'], edit_post['title'], edit_post['content'], edit_post['category_id'], id))
+
+        rows_affected = db_cursor.rowcount
+        
+    if rows_affected == 0:
+        return False
+    else:
+        return True
+
 def get_single_post(id):
-     with sqlite3.connect("./rare.db") as conn:
+    with sqlite3.connect("./rare.db") as conn:
         conn.row_factory = sqlite3.Row
         db_cursor = conn.cursor()
 
