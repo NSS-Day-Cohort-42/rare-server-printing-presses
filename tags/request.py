@@ -47,7 +47,7 @@ def create_new_tag(new_tag):
 
     return json.dumps(new_tag)
 
-def get_posts_tags():
+def get_post_tag_by_id(post_id):
     with sqlite3.connect("./rare.db") as conn:
         db_cursor = conn.cursor()
 
@@ -55,9 +55,13 @@ def get_posts_tags():
         SELECT
             pt.id,
             pt.post_id,
-            pt.tag_id
+            pt.tag_id,
+            t.id,
+            t.label
         FROM post_tags pt
-        """)
+        JOIN tags t ON t.id = pt.tag_id
+        WHERE pt.post_id = ?
+               """,(post_id, ))
 
         post_tags = []
         dataset = db_cursor.fetchall()
@@ -65,7 +69,10 @@ def get_posts_tags():
         
 
         for row in dataset:
-            pt = Post_Tags(row[0], row[1], row[2])
+            pt = Post_Tags(row['id'], row['post_id'], row['tag_id'])
+            tag = Tag(row['id'], row['label'])
+
+            pt.tags = tag.__dict__
 
             post_tags.append(pt.__dict__)
 

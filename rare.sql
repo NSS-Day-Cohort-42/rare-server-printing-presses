@@ -92,7 +92,7 @@ INSERT INTO `post_tags` VALUES (null, 1, 2);
 INSERT INTO `post_tags` VALUES (null, 2, 3);
 INSERT INTO `post_tags` VALUES (null, 1, 3);
 
-SELECT * FROM categories;
+SELECT * FROM post_tags;
 
 DELETE FROM users WHERE id = 3;
 
