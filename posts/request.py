@@ -71,8 +71,9 @@ def update_post(edit_post):
         return False
     else:
         return True
+
 def get_single_post(id):
-     with sqlite3.connect("./rare.db") as conn:
+    with sqlite3.connect("./rare.db") as conn:
         conn.row_factory = sqlite3.Row
         db_cursor = conn.cursor()
 
