@@ -105,6 +105,7 @@ def get_posts_by_category(category_id):
         SELECT
             a.id,
             a.user_id,
+            a.date,
             a.title,
             a.content,
             a.category_id
@@ -117,7 +118,7 @@ def get_posts_by_category(category_id):
         dataset = db_cursor.fetchall()
         for row in dataset:
 
-            post = Posts(row['id'], row['user_id'], row['title'],
+            post = Posts(row['id'], row['user_id'], row['date'], row['title'],
                         row['content'], row['category_id'])
             posts.append(post.__dict__)
 
