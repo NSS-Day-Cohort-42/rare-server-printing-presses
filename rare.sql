@@ -26,6 +26,9 @@ CREATE TABLE `posts` (
 	FOREIGN KEY(`category_id`) REFERENCES `categories`(`id`)
 );
 
+ALTER TABLE 'posts'
+ADD 'date' INTEGER;
+
 CREATE TABLE `post_tags` (
 	`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	`tag_id`	INTEGER NOT NULL,
