@@ -16,14 +16,14 @@ def get_all_posts():
         SELECT
             p.id,
             p.user_id,
+            p.date,
             p.title,
             p.content,
             p.category_id,
             t.id tag_id,
             t.label tag_label
         FROM posts p
-        JOIN post_tags pt ON p.id = pt.post_id
-        JOIN tags t ON pt.tag_id = t.id
+        ORDER BY date DESC
         """)
 
         posts = []
@@ -31,7 +31,7 @@ def get_all_posts():
         dataset = db_cursor.fetchall()
 
         for row in dataset:
-            post = Posts(row['id'], row['user_id'], row['title'],
+            post = Posts(row['id'], row['user_id'], row['date'], row['title'],
                             row['content'], row['category_id'])
 
             tag = Tag("",row['tag_label'])
@@ -48,10 +48,10 @@ def create_post(new_posts):
 
             db_cursor.execute("""
             INSERT INTO posts
-                (user_id, title, content, category_id )
+                (user_id, date, title, content, category_id )
             VALUES
-                (?, ?, ?, ?);
-            """, (new_posts['user_id'], new_posts['title'], new_posts['content'], new_posts['category_id'], ))
+                (?, ?, ?, ?, ?);
+            """, (new_posts['user_id'], new_posts['date'], new_posts['title'], new_posts['content'], new_posts['category_id'], ))
 
             id = db_cursor.lastrowid
 
@@ -60,8 +60,28 @@ def create_post(new_posts):
 
         return json.dumps(new_posts)
 
+def update_post(id, edit_post):
+    with sqlite3.connect("rare.db") as conn:
+        db_cursor = conn.cursor()
+        db_cursor.execute("""
+        UPDATE posts
+            SET
+                user_id = ?,
+                title = ?,
+                content = ?,
+                category_id = ?
+        WHERE id = ?
+        """, (edit_post['user_id'], edit_post['title'], edit_post['content'], edit_post['category_id'], id))
+
+        rows_affected = db_cursor.rowcount
+        
+    if rows_affected == 0:
+        return False
+    else:
+        return True
+
 def get_single_post(id):
-     with sqlite3.connect("./rare.db") as conn:
+    with sqlite3.connect("./rare.db") as conn:
         conn.row_factory = sqlite3.Row
         db_cursor = conn.cursor()
 
@@ -69,6 +89,7 @@ def get_single_post(id):
         SELECT
             a.id,
             a.user_id,
+            a.date,
             a.title,
             a.content,
             a.category_id
@@ -77,10 +98,38 @@ def get_single_post(id):
         """, ( id, ))
 
         data = db_cursor.fetchone()
-        post = Posts(data['id'], data['user_id'], data['title'],
+        post = Posts(data['id'], data['user_id'], data['date'], data['title'],
                         data['content'], data['category_id'])
 
         return json.dumps(post.__dict__)
+
+def get_posts_by_category(category_id):
+    with sqlite3.connect("./rare.db") as conn:
+        conn.row_factory = sqlite3.Row
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        SELECT
+            a.id,
+            a.user_id,
+            a.date,
+            a.title,
+            a.content,
+            a.category_id
+        FROM posts a
+        WHERE a.category_id = ?
+        """, (  category_id, ))
+
+        posts = []
+
+        dataset = db_cursor.fetchall()
+        for row in dataset:
+
+            post = Posts(row['id'], row['user_id'], row['date'], row['title'],
+                        row['content'], row['category_id'])
+            posts.append(post.__dict__)
+
+    return json.dumps(posts)
 
 def delete_post(id):
     with sqlite3.connect("./rare.db") as conn:
