@@ -15,10 +15,12 @@ def get_all_posts():
         SELECT
             p.id,
             p.user_id,
+            p.date,
             p.title,
             p.content,
             p.category_id
         FROM posts p
+        ORDER BY date DESC
         """)
 
         posts = []
@@ -26,7 +28,7 @@ def get_all_posts():
         dataset = db_cursor.fetchall()
 
         for row in dataset:
-            post = Posts(row['id'], row['user_id'], row['title'],
+            post = Posts(row['id'], row['user_id'], row['date'], row['title'],
                             row['content'], row['category_id'])
 
             posts.append(post.__dict__)
@@ -39,10 +41,10 @@ def create_post(new_posts):
 
             db_cursor.execute("""
             INSERT INTO posts
-                (user_id, title, content, category_id )
+                (user_id, date, title, content, category_id )
             VALUES
-                (?, ?, ?, ?);
-            """, (new_posts['user_id'], new_posts['title'], new_posts['content'], new_posts['category_id'], ))
+                (?, ?, ?, ?, ?);
+            """, (new_posts['user_id'], new_posts['date'], new_posts['title'], new_posts['content'], new_posts['category_id'], ))
 
             id = db_cursor.lastrowid
 
@@ -60,6 +62,7 @@ def get_single_post(id):
         SELECT
             a.id,
             a.user_id,
+            a.date,
             a.title,
             a.content,
             a.category_id
@@ -68,7 +71,7 @@ def get_single_post(id):
         """, ( id, ))
 
         data = db_cursor.fetchone()
-        post = Posts(data['id'], data['user_id'], data['title'],
+        post = Posts(data['id'], data['user_id'], data['date'], data['title'],
                         data['content'], data['category_id'])
 
         return json.dumps(post.__dict__)
