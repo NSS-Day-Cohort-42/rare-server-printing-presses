@@ -56,11 +56,11 @@ def get_post_tags_by_id(post_id):
             pt.id,
             pt.post_id,
             pt.tag_id,
-            t.id,
+            t.id tag_id,
             t.label
         FROM post_tags pt
+        JOIN tags t ON t.id = pt.tag_id
         WHERE pt.post_id = ?
-        JOIN tag t ON t.id = pt.tag_id
                """,(post_id, ))
 
         post_tags = []
