@@ -74,6 +74,9 @@ class HandleRequests(BaseHTTPRequestHandler):
                     response = f"{get_single_comment(id)}"
                 else:
                     response = f"{get_all_comments()}"
+
+            elif resource == "users":
+                response = f"{get_all_users()}"
                     
             elif resource == "tags":
                 response = f"{get_all_tags()}"
